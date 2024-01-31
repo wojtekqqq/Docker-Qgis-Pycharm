@@ -1,0 +1,24 @@
+# Użyj obrazu QGIS z Docker Hub
+FROM qgis/qgis:release-3_28
+
+# Zainstaluj zależności potrzebne do uruchomienia PyCharm
+RUN apt-get update && apt-get install -y wget libxext6 libxrender1 libxtst6 libfreetype6 libxi6
+
+# Pobierz i zainstaluj PyCharm Professional
+RUN wget https://download.jetbrains.com/python/pycharm-professional-2023.3.3.tar.gz -O /tmp/pycharm-professional.tar.gz \
+    && tar -xzf /tmp/pycharm-professional.tar.gz -C /opt/ \
+    && rm /tmp/pycharm-professional.tar.gz
+
+# Ustaw zmienne środowiskowe dla serwera X Window
+ENV DISPLAY=host.docker.internal:0.0
+
+# Ustaw zmienne środowiskowe dla serwera X Window
+ENV DISPLAY=host.docker.internal:0.0
+
+# Zdefiniuj wolumin w ścieżce /root
+VOLUME /root
+
+# Uruchom PyCharm
+CMD ["/opt/pycharm-2023.3.3/bin/pycharm.sh"]
+
+

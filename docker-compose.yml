@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgis:
+#    image: postgis/postgis:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.postgis
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: gis
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+
+  qgis-pycharm:
+    build:
+      context: .
+      dockerfile: Dockerfile.gis
+    environment:
+      DISPLAY: host.docker.internal:0.0
+    networks:
+      - mynetwork
+    volumes:
+      - qgis_data:/root
+    depends_on:
+      - postgis
+
+volumes:
+  postgis_data:
+  qgis_data:
+  
+networks:
+  mynetwork:
