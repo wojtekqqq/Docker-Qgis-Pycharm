@@ -18,7 +18,10 @@ ENV DISPLAY=host.docker.internal:0.0
 # Zdefiniuj wolumin w ścieżce /root
 VOLUME /root
 
-# Uruchom PyCharm
-CMD ["/opt/pycharm-2023.3.3/bin/pycharm.sh"]
+# Dodaj skrypt startowy
+ADD start.sh /start.sh
+RUN chmod +x /start.sh
 
+# Ustaw skrypt startowy jako punkt wejścia
+ENTRYPOINT ["/start.sh"]
 
